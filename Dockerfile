@@ -1,8 +1,13 @@
-FROM alpine:latest
-RUN apk update && \
-    apk add ca-certificates && \
-    update-ca-certificates
+FROM golang:1.12-alpine
 
-COPY bin/statuscake-exporter /statuscake-exporter
+ENV GO111MODULE=on
+WORKDIR /app/server
+COPY go.mod .
+COPY go.sum .
 
-ENTRYPOINT ["/statuscake-exporter"]
+RUN apk add git
+RUN go mod download
+COPY . .
+
+RUN go build
+CMD ["./statuscake-exporter"]

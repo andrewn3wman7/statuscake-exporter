@@ -22,7 +22,7 @@ TMP_DIRS += ./dist
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
 GIT_DESCRIBE := $(shell git describe --tags --always)
 
-GOOS := linux
+GOOS := darwin
 GOARCH := amd64
 
 CGO_ENABLED := 0

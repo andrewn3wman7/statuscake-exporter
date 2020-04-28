@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	statuscake "github.com/mtulio/statuscake"
+	statuscake "github.com/andrewn3wman7/statuscake"
 )
 
 // StkOptions StatusCake CLI Options
@@ -22,6 +22,7 @@ type StkAPI struct {
 	waitIntervalSec uint32
 	EnableTests     bool
 	EnableTestsSSL  bool
+	ContactGroups	*statuscake.ContactGroup
 	Tests           []*statuscake.Test
 	TestsSSL        []*statuscake.Ssl
 	controlInit     bool
@@ -61,6 +62,14 @@ func (stk *StkAPI) SetConfigTags(tags string) {
 func (stk *StkAPI) GetTags() string {
 	return stk.configTags
 }
+
+// GetContactGroups return all StatusCake Contact Group for specific test.
+// Getting group name is hammering too much the API, leave it for now
+// func (stk *StkAPI) GetContactGroupName(i int) (string) {
+// 	response, _ := stk.client.ContactGroups().Detail(i)
+// 	return response.GroupName
+// }
+
 
 // GetTests return all StatusCake Tests from last API discovery.
 func (stk *StkAPI) GetTests() []*statuscake.Test {

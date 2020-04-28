@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/mtulio/statuscake-exporter/collector"
-	"github.com/mtulio/statuscake-exporter/stk"
+	"github.com/andrewn3wman7/statuscake-exporter/collector"
+	"github.com/andrewn3wman7/statuscake-exporter/stk"
 	"github.com/prometheus/client_golang/prometheus"
 )
 

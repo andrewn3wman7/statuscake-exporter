@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/apex/log"
-	"github.com/mtulio/statuscake-exporter/stk"
+	"github.com/andrewn3wman7/statuscake-exporter/stk"
 	"github.com/prometheus/client_golang/prometheus"
 )
 

@@ -23,7 +23,7 @@ build:
 		go build \
 		-ldflags "$(LDFLAGS)" \
 		$(BUILD_TAGS) \
-		-o $(BIN_NAME) && strip $(BIN_NAME)
+		-o $(BIN_NAME)
 
 .PHONY: run
 run:

@@ -4,8 +4,9 @@ import (
 	"math"
 	"strconv"
 	"time"
+	"strings"
 
-	"github.com/mtulio/statuscake-exporter/stk"
+	"github.com/andrewn3wman7/statuscake-exporter/stk"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -38,57 +39,57 @@ func NewStkSSLCollector() (Collector, error) {
 		stkSslUp: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "up"),
 			"StatusCake Test SSL Status",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslCertScore: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "cert_score"),
 			"StatusCake SSL Certificate Score",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslCipherScore: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "cipher_score"),
 			"StatusCake SSL Cipher Score",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslCertStatus: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "cert_status"),
 			"StatusCake SSL Cert Status",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslValidUntil: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "valid_util_sec"),
 			"StatusCake SSL Valid Until",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslAlertReminder: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "alert_reminder"),
 			"StatusCake SSL Alert Reminder boolean",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslLastReminder: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "last_reminder"),
 			"StatusCake SSL Last Reminder",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslAlertExpiry: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "alert_expiry"),
 			"StatusCake SSL Alert Expiry boolean",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslAlertBroken: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "alert_broken"),
 			"StatusCake SSL Alert Broken boolean",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslAlertMixed: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "alert_mixed"),
 			"StatusCake SSL Alert Broken boolean",
-			[]string{"domain"}, nil,
+			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslFlagEnabled: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "flag_enabled"),
 			"StatusCake SSL Flag is enabled",
-			[]string{"domain", "name"}, nil,
+			[]string{"domain", "name","contactGroupId"}, nil,
 		),
 	}, nil
 }
@@ -126,6 +127,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			float64(testStatus),
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		ctscore, _ := strconv.ParseFloat(test.CertScore, 32)
@@ -134,6 +136,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			ctscore,
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		ciscore, _ := strconv.ParseFloat(test.CipherScore, 32)
@@ -142,6 +145,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			ciscore,
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		certStatus := 0
@@ -153,6 +157,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			float64(certStatus),
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		t, err := time.Parse("2006-01-02 15:04:05", test.ValidUntilUtc)
@@ -163,6 +168,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 				prometheus.GaugeValue,
 				secUntilExpiry,
 				test.Domain,
+				strings.Join(test.ContactGroups[:],","),
 			)
 		}
 
@@ -175,6 +181,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			float64(alert),
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		alert = test.LastReminder
@@ -183,6 +190,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			float64(alert),
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		alert = 0
@@ -194,6 +202,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			float64(alert),
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		alert = 0
@@ -205,6 +214,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			float64(alert),
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		alert = 0
@@ -216,6 +226,7 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 			prometheus.GaugeValue,
 			float64(alert),
 			test.Domain,
+			strings.Join(test.ContactGroups[:],","),
 		)
 
 		for f := range test.Flags {
@@ -230,7 +241,9 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 				c.stkSslFlagEnabled,
 				prometheus.GaugeValue,
 				float64(alert),
-				test.Domain, f,
+				test.Domain, 
+				f,
+				strings.Join(test.ContactGroups[:],","),
 			)
 		}
 	}
