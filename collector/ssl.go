@@ -11,18 +11,19 @@ import (
 )
 
 type stkSSLCollector struct {
-	StkAPI              *stk.StkAPI
-	stkSslUp            *prometheus.Desc
-	stkSslCertScore     *prometheus.Desc
-	stkSslCipherScore   *prometheus.Desc
-	stkSslCertStatus    *prometheus.Desc
-	stkSslValidUntil    *prometheus.Desc
-	stkSslAlertReminder *prometheus.Desc
-	stkSslLastReminder  *prometheus.Desc
-	stkSslAlertExpiry   *prometheus.Desc
-	stkSslAlertBroken   *prometheus.Desc
-	stkSslAlertMixed    *prometheus.Desc
-	stkSslFlagEnabled   *prometheus.Desc
+	StkAPI                *stk.StkAPI
+	stkSslUp              *prometheus.Desc
+	stkSslCertScore       *prometheus.Desc
+	stkSslCipherScore     *prometheus.Desc
+	stkSslCertStatus      *prometheus.Desc
+	stkSslValidUntil      *prometheus.Desc
+	stkSslValidUntilDays  *prometheus.Desc
+	stkSslAlertReminder   *prometheus.Desc
+	stkSslLastReminder    *prometheus.Desc
+	stkSslAlertExpiry     *prometheus.Desc
+	stkSslAlertBroken     *prometheus.Desc
+	stkSslAlertMixed      *prometheus.Desc
+	stkSslFlagEnabled     *prometheus.Desc
 }
 
 const (
@@ -57,8 +58,13 @@ func NewStkSSLCollector() (Collector, error) {
 			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslValidUntil: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "valid_util_sec"),
+			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "valid_until_sec"),
 			"StatusCake SSL Valid Until",
+			[]string{"domain","contactGroupId"}, nil,
+		),
+		stkSslValidUntilDays: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, stkSSLCollectorSubsystem, "valid_until_days"),
+			"StatusCake SSL Valid Until (in Days)",
 			[]string{"domain","contactGroupId"}, nil,
 		),
 		stkSslAlertReminder: prometheus.NewDesc(
@@ -167,6 +173,17 @@ func (c *stkSSLCollector) updateStkSSL(ch chan<- prometheus.Metric) error {
 				c.stkSslValidUntil,
 				prometheus.GaugeValue,
 				secUntilExpiry,
+				test.Domain,
+				strings.Join(test.ContactGroups[:],","),
+			)
+		}
+
+		if err == nil {
+			daysUntilExpiry := math.Round(t.Sub(time.Now().UTC()).Hours() / 24)
+			ch <- prometheus.MustNewConstMetric(
+				c.stkSslValidUntilDays,
+				prometheus.GaugeValue,
+				daysUntilExpiry,
 				test.Domain,
 				strings.Join(test.ContactGroups[:],","),
 			)

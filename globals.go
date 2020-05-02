@@ -20,6 +20,7 @@ type globalConf struct {
 	Resolution     int
 	StkEnableTests bool
 	StkEnableSSL   bool
+	StkEnablePageSpeed bool
 	StkSSLFlags    string
 }
 
@@ -56,6 +57,7 @@ var (
 		"",
 		defaultInterval,
 		defaultResolution,
+		false,
 		false,
 		false,
 		"",

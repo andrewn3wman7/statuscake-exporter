@@ -25,6 +25,7 @@ type StkAPI struct {
 	ContactGroups	*statuscake.ContactGroup
 	Tests           []*statuscake.Test
 	TestsSSL        []*statuscake.Ssl
+	TestsPageSpeed	*statuscake.ReplyAll
 	controlInit     bool
 	sslFlagsEnabled map[string]bool
 }
@@ -76,6 +77,12 @@ func (stk *StkAPI) GetTests() []*statuscake.Test {
 	return stk.Tests
 }
 
+
+// GetTestsPagespeed return all StatusCake SSL Tests from last API discovery.
+func (stk *StkAPI) GetTestsPageSpeed() *statuscake.ReplyAll {
+	return stk.TestsPageSpeed
+}
+
 // GetTestsSSL return all StatusCake SSL Tests from last API discovery.
 func (stk *StkAPI) GetTestsSSL() []*statuscake.Ssl {
 	return stk.TestsSSL
@@ -106,6 +113,7 @@ func (stk *StkAPI) GatherAll() error {
 	go stk.gatherTest()
 	go stk.gatherTestsData()
 	go stk.gatherTestsSSL()
+	go stk.gatherTestsPageSpeed()
 	return nil
 }
 
@@ -123,6 +131,21 @@ func (stk *StkAPI) gatherTest() {
 		if !stk.controlInit {
 			log.Println(" Initial API discovery returns the Total of Tests:", len(tests))
 			stk.controlInit = true
+		}
+		time.Sleep(time.Second * time.Duration(stk.waitIntervalSec))
+	}
+}
+
+func (stk *StkAPI) gatherTestsPageSpeed() {
+	pagespeedCli := statuscake.NewPageSpeeds(stk.client)
+	for {
+		pagespeeds, err := pagespeedCli.All()
+		if err != nil {
+			log.Println(err)
+		}
+		stk.TestsPageSpeed = pagespeeds
+		if !stk.controlInit {
+			log.Println(" Initial API discovery returns the Total of Pagespeed Tests:", len(stk.TestsPageSpeed.Data))
 		}
 		time.Sleep(time.Second * time.Duration(stk.waitIntervalSec))
 	}

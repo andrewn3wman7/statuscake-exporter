@@ -8,6 +8,10 @@ github.com/andrewn3wman7/statuscake v0.0.0-20200428082236-09c86e7d34a6 h1:yZ/69Y
 github.com/andrewn3wman7/statuscake v0.0.0-20200428082236-09c86e7d34a6/go.mod h1:iHLGdVHZmVr59xE8YPLYuPZo5WHspKZkOkU5h57nSZA=
 github.com/andrewn3wman7/statuscake v0.0.0-20200428082236-ebc78f33c0a6 h1:XWWBuhgw2gGXbdDedN/MKVPat8z0oevuDA1XHOxrI6k=
 github.com/andrewn3wman7/statuscake v0.0.0-20200428082236-ebc78f33c0a6/go.mod h1:iHLGdVHZmVr59xE8YPLYuPZo5WHspKZkOkU5h57nSZA=
+github.com/andrewn3wman7/statuscake v0.0.0-20200430121539-ceb599095d50 h1:k6o7RLu3cL/n2MUgLmOji3uxFiRRylu2qrdHLNLt4B8=
+github.com/andrewn3wman7/statuscake v0.0.0-20200430121539-ceb599095d50/go.mod h1:iHLGdVHZmVr59xE8YPLYuPZo5WHspKZkOkU5h57nSZA=
+github.com/andrewn3wman7/statuscake v0.0.0-20200430152348-c62ce135acd1 h1:QK7GP7HgPfwP8B10F1L0qGcn1RAmDrFTaYM18szyMvM=
+github.com/andrewn3wman7/statuscake v0.0.0-20200430152348-c62ce135acd1/go.mod h1:iHLGdVHZmVr59xE8YPLYuPZo5WHspKZkOkU5h57nSZA=
 github.com/apex/log v1.1.1 h1:BwhRZ0qbjYtTob0I+2M+smavV0kOC8XgcnGZcyL9liA=
 github.com/apex/log v1.1.1/go.mod h1:Ls949n1HFtXfbDcjiTTFQqkVUrte0puoIBfO3SVgwOA=
 github.com/aphistic/golf v0.0.0-20180712155816-02c07f170c5a/go.mod h1:3NqKYiepwy8kCu4PNA+aP7WUV72eXWJeP9/r3/K9aLE=

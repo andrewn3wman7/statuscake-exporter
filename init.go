@@ -30,6 +30,7 @@ func initFlags() error {
 	flagStkInterval := flag.Int("stk.interval", defaultInterval, "StatusCake interval time, in seconds, to gather metrics on API (avoid throtling). Default: 300.")
 	flagEnableTests := flag.Bool("stk.enable-tests", true, "Enable Tests module")
 	flagEnableSSL := flag.Bool("stk.enable-ssl", true, "Enable SSL module")
+	flagEnablePageSpeed := flag.Bool("stk.enable-pagespeed", true, "Enable Pagespeed module")
 	flagSSLFlags := flag.String("stk.ssl-flags", "", "List of flags to expose as metrics sepparated by comma")
 
 	flag.Usage = usage
@@ -71,6 +72,7 @@ func initFlags() error {
 		config.StkInterval = *flagStkInterval
 	}
 
+	config.StkEnablePageSpeed = *flagEnablePageSpeed
 	config.StkEnableTests = *flagEnableTests
 	config.StkEnableSSL = *flagEnableSSL
 
